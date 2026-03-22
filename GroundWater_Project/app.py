@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
+import pandas as pd
 import pickle
 import numpy as np
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 model = pickle.load(open("model.pkl", "rb"))
 
@@ -12,17 +15,26 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
-    
+
     tank_capacity = data["tank_capacity"]
     current_level = data["current_level"]
     residents = data["residents"]
     daily_usage = data["daily_usage"]
     rainfall = data["rainfall"]
-    tank_fill_ratio = current_level/tank_capacity
-    usage_per_person = daily_usage /residents
 
-    input_data = np.array([[tank_capacity, current_level, residents, daily_usage, rainfall,tank_fill_ratio, usage_per_person]])
-    
+    tank_fill_ratio = current_level/tank_capacity
+    usage_per_person = daily_usage / residents if residents != 0 else 0
+
+    input_data = pd.DataFrame([{
+        "tank_capacity": tank_capacity,
+        "current_level": current_level,
+        "residents": residents,
+        "daily_usage": daily_usage,
+        "rainfall": rainfall,
+        "tank_fill_ratio": tank_fill_ratio,
+        "usage_per_person": usage_per_person
+    }])
+
     prediction = model.predict(input_data)[0]
     
     # Alert logic
