@@ -1,37 +1,35 @@
-# 💧 Water Quality Prediction using Machine Learning
+# 💧Water Depletion Prediction System
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-This project uses machine learning techniques to predict water quality based on physicochemical properties. It compares multiple models and identifies the most suitable one for the dataset.
+AquaGuard is a machine learning–based system that predicts when water tanks in apartment complexes will run out. It enables proactive water management by estimating remaining water duration and generating early warning alerts.
 
 ---
 
 ## 📌 Overview
 
-Water quality assessment is essential for ensuring safe consumption and environmental monitoring. This project applies regression models to analyze water parameters and predict quality levels.
+Urban apartments often face unexpected water shortages due to the lack of predictive visibility into water usage. AquaGuard addresses this by analyzing consumption patterns, tank levels, and environmental factors to estimate the time remaining until water depletion.
 
 ---
 
-## 🧠 Features
+## 🧠 Key Features
 
-* Data preprocessing and cleaning
-* Exploratory Data Analysis (EDA)
-* Model training and evaluation
-* Cross-validation for performance consistency
-* Model comparison
+* 📊 Predicts **days left until water depletion**
+* 🔔 Alert system: Safe / Warning / Critical
+* 🌦️ Considers rainfall and seasonal variations
+* ⚡ Real-time predictions via Flask API
+* 🧠 Uses advanced ML models for improved accuracy
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
-water-prediction-ml/
-│── data/               # Dataset files
-│── notebooks/          # Jupyter notebooks
-│── src/                # Source code
-│── models/             # Saved models
-│── README.md           # Documentation
-│── LICENSE             # MIT License
+GroundWater_Project/
+│── GroundWater_DataSet.ipynb      # Dataset generation
+│── GroundWater_TrainedModel.ipynb # Model training & evaluation
+│── water_data.csv                 # Dataset
+│── model.pkl                      # Final trained model
+│── app.py                         # Flask backend
+│── README.md                      # Documentation
 ```
 
 ---
@@ -39,86 +37,118 @@ water-prediction-ml/
 ## ⚙️ Technologies Used
 
 * Python
-* NumPy
-* Pandas
+* Pandas, NumPy
 * Scikit-learn
-* Matplotlib / Seaborn
+* Flask
+* HTML, CSS, JavaScript
 
 ---
 
-## 📊 Model Performance
+## 📊 Data & Feature Engineering
 
-### 🔹 Elastic Net Regression
+The dataset includes:
 
-* MAE: 1.4088
-* R² Score: 0.6469
-* Cross-validation Score: 0.6447
+* Tank capacity
+* Current water level
+* Number of residents
+* Daily water usage
+* Rainfall
+* Season
 
-### 🔹 Random Forest Regressor
+Additional engineered features:
 
-* MAE: 0.2422
-* R² Score: 0.9672
-* Cross-validation Score: 0.9648
+* **tank_fill_ratio** → proportion of tank filled
+* **usage_per_person** → per capita water usage
 
----
-
-## 🏆 Conclusion
-
-From the experiments, **Elastic Net was selected as the preferred model** for this project due to its simplicity, interpretability, and stable performance across cross-validation.
+These features improve model performance by capturing normalized and behavioral patterns.
 
 ---
 
-## 🚀 Getting Started
+## 🤖 Machine Learning Models
 
-### 1. Clone the repository
+### 🔹 ElasticNet Regression
+
+* MAE: 1.40
+* R² Score: 0.64
+* Cross-validation Score: ~0.64
+
+### 🔹 Random Forest Regressor (Final Model)
+
+* MAE: ~0.15 days
+* R² Score: ~0.96+
+* Cross-validation: High and consistent
+
+---
+
+## 🏆 Model Selection
+
+Random Forest was selected as the final model due to:
+
+* Significantly lower error
+* Ability to capture **non-linear relationships**
+* Better performance across cross-validation
+
+---
+
+## 🚨 Alert System
+
+* 🟢 SAFE → More than 5 days left
+* 🟡 WARNING → 2–5 days left
+* 🔴 CRITICAL → Less than 2 days left
+
+---
+
+## 🚀 How It Works
+
+1. User inputs tank and usage details
+2. Model predicts remaining days
+3. System generates alert level
+4. Enables proactive decision-making
+
+---
+
+## 💡 Why Machine Learning?
+
+A simple formula assumes constant usage:
 
 ```
-git clone https://github.com/edlynjessica/water-prediction-ml.git
-cd water-prediction-ml
+days_left = current_level / daily_usage
 ```
 
-### 2. Install dependencies
+However, in real-world scenarios, water consumption varies due to:
 
-```
-pip install -r requirements.txt
-```
+* Seasonal changes
+* Rainfall
+* Human behavior
 
-### 3. Run the project
-
-```
-python main.py
-```
+AquaGuard uses ML to model these variations and provide more accurate predictions.
 
 ---
 
-## 📈 Results
+## 📈 Evaluation Metrics
 
-The models were evaluated using Mean Absolute Error (MAE) and R² score. Cross-validation was used to ensure consistent performance across different data splits.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
+* Mean Absolute Error (MAE)
+* R² Score
+* Cross-validation
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
-## 👩‍💻 Authors
+## 👩‍💻 Author
 
 **Jebasingh Sunderson I**
 **Edlyn Jessica Philip**
 
 ---
 
-## 🌟 Acknowledgements
+## 🌟 Future Improvements
 
-* Scikit-learn documentation
-* Open-source datasets and ML resources
+* 📱 Mobile notifications
+* 🌍 Weather API integration
+* 🤖 Automated tanker booking
+* 📊 Interactive dashboard
 
 ---
+
+## 📜 License
+
+MIT License
