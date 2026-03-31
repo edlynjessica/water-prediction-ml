@@ -1,6 +1,6 @@
 # 💧Water Depletion Prediction System
 
-AquaGuard is a machine learning–based system that predicts when water tanks in apartment complexes will run out. It enables proactive water management by estimating remaining water duration and generating early warning alerts.
+This is a machine learning–based system that predicts when water tanks in apartment complexes will run out. It enables proactive water management by estimating remaining water duration and generating early warning alerts.
 
 ---
 
@@ -133,7 +133,7 @@ AquaGuard uses ML to model these variations and provide more accurate prediction
 
 ---
 
-## 👩‍💻 Author
+## 👩‍💻 Authors
 
 **Jebasingh Sunderson I**
 **Edlyn Jessica Philip**
