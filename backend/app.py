@@ -24,12 +24,17 @@ app.add_middleware(
 model = joblib.load("model.pkl")
 
 
-@app.get("/") 
+
 # If someone visits the home page (/) using a GET request
 # run the function below.
+@app.get("/")
 def home():
-    return {"message": "Groundwater depletion prediction system!"}
-    # Send a JSON response.
+    return {
+        "project": "AquaGuard",
+        "status": "Running",
+        "version": "1.0",
+        "docs": "/docs"
+    }
 
 #NOTE: FastAPI automatically converts the python dict into JSON.
 
