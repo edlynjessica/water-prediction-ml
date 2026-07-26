@@ -1,78 +1,88 @@
-async function predictWaterLevel(
-  tankCapacity,
-  currentLevel,
-  residents,
-  dailyUsage,
-  rainfall,
-) {
-  try {
-    const response = await fetch("http://127.0.0.1:5000/predict", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tank_capacity: tankCapacity,
-        current_level: currentLevel,
-        residents: residents,
-        daily_usage: dailyUsage,
-        rainfall: rainfall,
-      }),
-    });
+async function predict() {
 
-    const data = await response.json();
-    return data; // ✅ return full object
-  } catch (error) {
-    console.error("Error:", error);
-    return null;
-  }
+    // Button
+    const button = document.getElementById("predict-btn");
+    button.innerText = "⏳ Predicting...";
+    button.disabled = true;
+
+    // Read Inputs
+    const data = {
+        tank_capacity: Number(document.getElementById("tank_capacity").value),
+        current_level: Number(document.getElementById("current_level").value),
+        residents: Number(document.getElementById("residents").value),
+        daily_usage: Number(document.getElementById("daily_usage").value),
+        rainfall: Number(document.getElementById("rainfall").value)
+    };
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error("Backend returned an error.");
+        }
+
+        const result = await response.json();
+
+        // Progress bar percentage (0-30 days)
+        let percent = (result.days_left / 8) * 100;
+        percent = Math.min(percent, 100);
+
+        // Progress bar color
+        let color = "#2ecc71";
+        let icon = "🟢";
+
+        if (result.alert === "WARNING") {
+            color = "#f39c12";
+            icon = "🟡";
+        } else if (result.alert === "CRITICAL") {
+            color = "#e74c3c";
+            icon = "🔴";
+        }
+
+        const resultBox = document.getElementById("result");
+
+        resultBox.style.visibility = "visible";
+        resultBox.style.opacity = "1";
+
+        resultBox.innerHTML = `
+            <div class="result-title">
+                Prediction
+            </div>
+
+            <div class="days">
+                ${Number(result.days_left).toFixed(2)} Days
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar"
+                    style="width:${percent}%; background:${color};">
+                </div>
+            </div>
+
+            <div class="status">
+                ${icon} ${result.alert}
+            </div>
+        `;
+
+    }
+    catch (error) {
+
+        console.error(error);
+        alert(error.message);
+
+    }
+    finally {
+
+        button.innerText = "🔍 Predict";
+        button.disabled = false;
+
+    }
+
 }
-
-document
-  .getElementById("predict-btn")
-  .addEventListener("click", async function () {
-    const tankCapacity = parseFloat(
-      document.querySelector(".tank-capacity").value,
-    );
-
-    const currentLevel = parseFloat(
-      document.querySelector(".current-level").value,
-    );
-
-    const residents = parseInt(document.querySelector(".residents").value);
-
-    const dailyUsage = parseFloat(document.querySelector(".daily-usage").value);
-
-    const rainfall = parseFloat(document.querySelector(".rainfall").value);
-
-    const data = await predictWaterLevel(
-      tankCapacity,
-      currentLevel,
-      residents,
-      dailyUsage,
-      rainfall,
-    );
-
-    if (!data) {
-      document.querySelector(".result").textContent = "Server error 🚨";
-      return;
-    }
-
-    const days = data.days_left;
-
-    // Show result
-    document.querySelector(".result").textContent =
-      `Days Left: ${days} | Status: ${data.alert}`;
-
-    // 🔥 Color logic
-    if (days <= 2) {
-      document.getElementsByClassName("container").style.backgroundColor =
-        "#f30f0f"; // red
-    } else if (days <= 5) {
-      document.getElementsByClassName("container").style.backgroundColor =
-        "#f3f30f"; // yellow
-    } else {
-      document.getElementsByClassName("container").style.backgroundColor =
-        "#0ff30f"; // green
-    }
-  });

@@ -1,65 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ground Water Level Prediction</title>
 
-    <!-- Link CSS -->
-    <link rel="stylesheet" href="main.css" />
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groundwater Depletion Prediction</title>
 
-  <body>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
     <div class="container">
-      <h1>💧 Ground Water Level Prediction</h1>
 
-      <p>
-        Predict groundwater levels using environmental and usage data. Enter the
-        required values below to estimate future water availability.
-      </p>
+        <h1>💧 Groundwater Depletion Prediction</h1>
 
-      <div class="form-group">
-        <label>Rainfall (mm)</label>
-        <input type="number" class="rainfall" placeholder="Enter rainfall" />
-      </div>
+        <p class="subtitle">
+            Estimate how many days your water supply will last based on current usage.
+        </p>
 
-      <div class="form-group">
-        <label>Daily Usage (liters)</label>
-        <input
-          type="number"
-          class="daily-usage"
-          placeholder="Enter daily usage"
-        />
-      </div>
+        <!-- Row 1 -->
+        <div class="row">
 
-      <div class="form-group">
-        <label>Number of Residents</label>
-        <input type="number" class="residents" placeholder="Enter residents" />
-      </div>
+            <div class="form-group">
+                <label>Tank Capacity (L)</label>
+                <input id="tank_capacity" type="number" placeholder="e.g. 2000">
+            </div>
 
-      <div class="form-group">
-        <label>Current Water Level (liters)</label>
-        <input
-          type="number"
-          class="current-level"
-          placeholder="Enter current level"
-        />
-      </div>
+            <div class="form-group">
+                <label>Current Water Level (L)</label>
+                <input id="current_level" type="number" placeholder="e.g. 1500">
+            </div>
 
-      <div class="form-group">
-        <label>Tank Capacity (liters)</label>
-        <input
-          type="number"
-          class="tank-capacity"
-          placeholder="Enter tank capacity"
-        />
-      </div>
+        </div>
 
-      <button class="btn" id="predict-btn">Predict Depletion Date</button>
+        <!-- Row 2 -->
+        <div class="row">
 
-      <div class="result">Days Left to Depletion:</div>
+            <div class="form-group">
+                <label>Residents</label>
+                <input id="residents" type="number" placeholder="e.g. 4">
+            </div>
+
+            <div class="form-group">
+                <label>Daily Usage (L/day)</label>
+                <input id="daily_usage" type="number" placeholder="e.g. 250">
+            </div>
+
+        </div>
+
+        <!-- Row 3 -->
+        <div class="form-group">
+            <label>Rainfall (mm)</label>
+            <input id="rainfall" type="number" placeholder="e.g. 40">
+        </div>
+
+        <button id="predict-btn" onclick="predict()">
+            🔍 Predict
+        </button>
+
+        <div id="result">
+            <div class="result-title">
+                Prediction
+            </div>
+
+            <div class="days">
+                --
+            </div>
+
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div class="status">
+                Waiting...
+            </div>
+        </div>
+
     </div>
-    <!-- Link JavaScript -->
+
     <script src="index.js"></script>
-  </body>
+
+</body>
+
 </html>
