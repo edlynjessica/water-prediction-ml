@@ -30,7 +30,7 @@ model = joblib.load("model.pkl")
 @app.get("/")
 def home():
     return {
-        "project": "AquaGuard",
+        "project": "Groundwater Depletion Prediction API",
         "status": "Running",
         "version": "1.0",
         "docs": "/docs"
