@@ -1,154 +1,180 @@
-# 💧Water Depletion Prediction System
+# 💧 Water Depletion Prediction System
 
-This is a machine learning–based system that predicts when water tanks in apartment complexes will run out. It enables proactive water management by estimating remaining water duration and generating early warning alerts.
-
----
-
-## 📌 Overview
-
-Urban apartments often face unexpected water shortages due to the lack of predictive visibility into water usage. AquaGuard addresses this by analyzing consumption patterns, tank levels, and environmental factors to estimate the time remaining until water depletion.
+An end-to-end Machine Learning web application that predicts the remaining number of days until a water tank is depleted based on water consumption patterns and environmental factors.
 
 ---
 
-## 🧠 Key Features
+## 🌐 Live Demo
 
-* 📊 Predicts **days left until water depletion**
-* 🔔 Alert system: Safe / Warning / Critical
-* 🌦️ Considers rainfall and seasonal variations
-* ⚡ Real-time predictions via Flask API
-* 🧠 Uses advanced ML models for improved accuracy
+**Frontend:** https://vocal-dasik-b18ce8.netlify.app/
 
----
+**Backend API:** https://water-prediction-ml.onrender.com/
 
-## 🗂️ Project Structure
-
-```
-GroundWater_Project/
-│── GroundWater_DataSet.ipynb      # Dataset generation
-│── GroundWater_TrainedModel.ipynb # Model training & evaluation
-│── water_data.csv                 # Dataset
-│── model.pkl                      # Final trained model
-│── app.py                         # Flask backend
-│── README.md                      # Documentation
-```
+**API Documentation:** https://water-prediction-ml.onrender.com/docs
 
 ---
 
-## ⚙️ Technologies Used
+## 📖 Overview
+
+Water shortages in residential communities often occur unexpectedly due to changing consumption patterns and limited visibility into remaining water availability.
+
+The Water Depletion Prediction System uses Machine Learning to estimate the number of days left until a water tank runs out and classifies the result into actionable alert levels, helping users take preventive measures before shortages occur.
+
+---
+
+## ✨ Features
+
+* 💧 Predicts remaining days until water depletion
+* 🤖 Machine Learning–based prediction using Random Forest Regression
+* 🚦 Smart alert system (Safe / Warning / Critical)
+* 🌧️ Considers rainfall along with water consumption
+* ⚡ FastAPI REST API backend
+* 🌐 Responsive web interface
+* ☁️ Fully deployed using Render and Netlify
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
 
 * Python
-* Pandas, NumPy
+* FastAPI
 * Scikit-learn
-* Flask
-* HTML, CSS, JavaScript
+* Pandas
+* NumPy
+* Joblib
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript (Fetch API)
+
+### Deployment
+
+* Render
+* Netlify
+
+### Version Control
+
+* Git
+* GitHub
 
 ---
 
-## 📊 Data & Feature Engineering
+## 📂 Project Structure
 
-The dataset includes:
-
-* Tank capacity
-* Current water level
-* Number of residents
-* Daily water usage
-* Rainfall
-* Season
-
-Additional engineered features:
-
-* **tank_fill_ratio** → proportion of tank filled
-* **usage_per_person** → per capita water usage
-
-These features improve model performance by capturing normalized and behavioral patterns.
-
----
-
-## 🤖 Machine Learning Models
-
-### 🔹 ElasticNet Regression
-
-* MAE: 1.40
-* R² Score: 0.64
-* Cross-validation Score: ~0.64
-
-### 🔹 Random Forest Regressor (Final Model)
-
-* MAE: ~0.15 days
-* R² Score: ~0.96+
-* Cross-validation: High and consistent
+```text
+water-prediction-ml/
+│
+├── backend/
+│   ├── app.py
+│   ├── model.pkl
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── index.js
+│
+├── notebooks/
+│   ├── GroundWater_DataSet.ipynb
+│   └── GroundWater_TrainedModel.ipynb
+│
+├── data/
+│   └── water_data.csv
+│
+├── README.md
+├── LICENSE
+└── .gitignore
+```
 
 ---
 
-## 🏆 Model Selection
+## 📊 Input Features
 
-Random Forest was selected as the final model due to:
+The prediction model uses the following parameters:
 
-* Significantly lower error
-* Ability to capture **non-linear relationships**
-* Better performance across cross-validation
+* Tank Capacity (L)
+* Current Water Level (L)
+* Number of Residents
+* Daily Water Usage (L/day)
+* Rainfall (mm)
 
 ---
 
-## 🚨 Alert System
+## 🤖 Machine Learning Model
 
-* 🟢 SAFE → More than 5 days left
-* 🟡 WARNING → 2–5 days left
-* 🔴 CRITICAL → Less than 2 days left
+**Algorithm**
+
+* Random Forest Regressor
+
+**Performance**
+
+* **R² Score:** **0.97**
+* **Mean Absolute Error (MAE):** **≈ 0.15 days**
+
+### Feature Importance
+
+| Feature             | Importance |
+| ------------------- | ---------: |
+| Daily Usage         |  **57.2%** |
+| Current Water Level |  **38.8%** |
+| Residents           |   **2.6%** |
+| Tank Capacity       |   **0.8%** |
+| Rainfall            |   **0.6%** |
+
+The model identifies **daily water usage** and **current water level** as the primary factors influencing water depletion.
+
+---
+
+## 🚦 Alert Levels
+
+| Days Remaining   | Status      |
+| ---------------- | ----------- |
+| More than 5 days | 🟢 SAFE     |
+| 2 – 5 days       | 🟡 WARNING  |
+| Less than 2 days | 🔴 CRITICAL |
 
 ---
 
 ## 🚀 How It Works
 
-1. User inputs tank and usage details
-2. Model predicts remaining days
-3. System generates alert level
-4. Enables proactive decision-making
+1. User enters tank and water usage details.
+2. The frontend sends the data to the FastAPI backend.
+3. The trained Random Forest model predicts the remaining days.
+4. The backend returns the prediction.
+5. The application displays the predicted days along with the corresponding alert level.
 
 ---
 
-## 💡 Why Machine Learning?
+## 🌍 Deployment
 
-A simple formula assumes constant usage:
-
-```
-days_left = current_level / daily_usage
-```
-
-However, in real-world scenarios, water consumption varies due to:
-
-* Seasonal changes
-* Rainfall
-* Human behavior
-
-AquaGuard uses ML to model these variations and provide more accurate predictions.
+* **Frontend:** Netlify
+* **Backend:** Render
+* **Model Serving:** FastAPI + Scikit-learn
 
 ---
 
-## 📈 Evaluation Metrics
+## 💡 Future Improvements
 
-* Mean Absolute Error (MAE)
-* R² Score
-* Cross-validation
-
----
-
-## 👩‍💻 Authors
-
-**Jebasingh Sunderson I**
-**Edlyn Jessica Philip**
-
----
-
-## 🌟 Future Improvements
-
+* 🌦️ Live Weather API integration
 * 📱 Mobile notifications
-* 🌍 Weather API integration
-* 🤖 Automated tanker booking
-* 📊 Interactive dashboard
+* 📊 Interactive analytics dashboard
+* 🏢 Multi-apartment support
+* 📈 Historical water usage analysis
+* 🚰 Automated tanker booking recommendations
 
 ---
 
-## 📜 License
+## 👨‍💻 Authors
 
-MIT License
+* **Edlyn Jessica Philip**
+* **Jebasingh Sunderson**
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
